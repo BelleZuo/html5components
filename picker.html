@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <title>单项选择器，多项选择器</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="item" id="showPicker1"  style="width: 4.6rem;"><span id="area">单项选择器</span></div>
+
+<a class="weui-cell weui-cell_access font14" href="javascript:;" onclick="ShowTimePicker()">
+        <div class="weui-cell__hd">
+            <!-- <img src="../images/time.png" height="12" class="disblock" /> -->
+        </div>
+        <div class="weui-cell__bd">
+            <p>服务时间</p>
+        </div>
+        <div class="weui-cell__ft public-color">
+            <input class="weui-input text-right" readonly="readonly" type="text" placeholder="请选择服务时间" />
+        </div>
+    </a>
+</body>
+<script charset="utf-8" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
+<script>
+        $('#showPicker1').on('click', function () {
+            weui.picker([{
+                label: '飞机票',
+                value: 0
+            }, {
+                label: '火车票',
+                value: 1
+            }, {
+                label: '的士票',
+                value: 2
+            },{
+                label: '公交票 (disabled)',
+                disabled: true,
+                value: 3
+            }, {
+                label: '其他',
+                value: 4
+            }], {
+                onChange: function (result) {
+                    console.log(result);
+                },
+                onConfirm: function (result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        function ShowTimePicker() {
+            var hours = [];
+            var minites = [];
+            if(!hours.length) {
+                for(var i = 0; i < 19; i++) {
+                    hours.push({
+                        label: ('' + i).length === 1 ? '0' + i + "时" : '' + i + "时",
+                        value: i
+                    });
+                }
+            }
+            if(!minites.length) {
+                for(var j = 0; j < 60; j++) {
+                    minites.push({
+                        label: ('' + j).length === 1 ? +j + "分" : '' + j + "分",
+                        value: j
+                    });
+                }
+            }
+            console.log('小时',hours);
+            console.log('分钟',minites);
+            weui.picker(hours, minites, {
+                defaultValue: [new Date().getHours() + 1, 0],
+                onConfirm: function(result) {
+                    var timeend = result[1] < 10 ? ("0" + result[1]) : result[1];
+                    var time = result[0] + ':' + timeend;
+                }
+            });
+        }
+</script>
+
+</html>

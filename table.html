@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+    <link rel="stylesheet" href="res/css/excel.css">
+    <style>
+    </style>
+    <title>统计列表</title>
+</head>
+<body>
+<img id="loading" src="data:image/gif;base64,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">
+<div class="container">
+    <!--header-->
+    <div class="header">
+        <div class="nav">
+            <div class="logo">
+                <img src="res/img/logo.png" alt="">
+            </div>
+            <div class="title">客户收款完成率</div>
+            <div class="year">
+            </div>
+
+        </div>
+        <div class="nav-title">
+            <div class="item1">单位:万元</div>
+            <div class="item" id="showPicker1"  style="width: 4.6rem;"><span id="area">区域</span> <img src="res/img/choose.png" alt="" class="choose"></div>
+            <div class="item" id="showPicker2"  style="width: 4.6rem;"><span id="sale">销售</span> <img src="res/img/choose.png" alt="" class="choose"></div>
+            <div class="item" id="showPicker3"  style="width: 4.6rem;"><span id="kehu">客户</span> <img src="res/img/choose.png" alt="" class="choose"></div>
+            <img src="res/img/count.png" alt="" class="count">
+        </div>
+
+    </div>
+
+    <div class="list">
+        <div id="div_Test3" style="OVERFLOW: auto;windowwidth:100% ;height: 100%;padding:0px; background-color: #ffffff;">
+            <table id="tab_Test3" border="0" width="600">
+            </table>
+        </div>
+        <!--<ul  class="statistics-bg" >-->
+        <!--<li class="statistics-line">-->
+        <!--<div class="left"></div>-->
+        <!--<div class="right"></div>-->
+        <!--</li>-->
+
+        <!--</ul>-->
+    </div>
+    <div class="list2" id="list2" style="display: none;">
+        <!--<div id="div_Test4" style="OVERFLOW: auto;width: 100%;height: 100%;padding:0px; background-color: #ffffff;">-->
+        <!--<table id="tab_Test4" border="0" width="900">-->
+        <!--</table>-->
+        <!--</div>-->
+    </div>
+</div>
+<!--<div class="page__bd page__bd_spacing">-->
+<!--<a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker1"  onclick="pickerClick()">单列选择器</a>-->
+<!--</div>-->
+<script type="text/javascript" src="res/js/jquery-1.3.0.min.js"></script>
+<script src="res/js/base.js"></script>
+<!--<script src="/platform/Base.js"></script>-->
+<script src="res/js/forcetk.js"></script>
+<script src="res/js/SFDCApi.js"></script>
+<!--<script src="/platform/forcetk.js"></script>-->
+<!--<script src="/platform/SFDCApi.js"></script>-->
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=ECZBZ-XJ5HU-QB3VU-2JRNW-EJIM3-WOFNT"></script>
+<script charset="utf-8" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script charset="utf-8" src="https://res.wx.qq.com/open/libs/weuijs/1.1.3/weui.min.js"></script>
+<!--<script src="./res/js/vconsole.min.js"></script>-->
+<script src="res/js/freeze.js"></script>
+<script>
+    var arealist = [], accoutlist = [],saleslist=[],area = null,name,staffs = null,accountid = null,flag=false;
+    window.onload = function () {
+        // var width = $(window).width() - 80 +'px';
+        // $('.right').css('width',width);
+        var myyear = 0;
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        var month = myDate.getMonth();
+        console.log('当前年',year);
+        console.log('当前月份',month);
+        if(month >= 0 && month < 8){
+            myyear = year;
+        }
+        if(month >= 8 && month < 12){
+            myyear = year + 1;
+        }
+        var html5 = '';
+        html5 = '<span>作物年:</span>'
+            +'<span>'+myyear+'</span>'
+        $('.year').html(html5);
+        rate(null,null,null,null);
+    }
+    $('#showPicker1').click(function(){
+        $('#sale').html('销售');
+        $('#kehu').html('客户');
+        var list = sessionStorage.getItem('arealist');
+        arealist = list.split(',');
+        var data = [{
+            label:'全部',
+            value:'全部'
+        }];
+        console.log(arealist);
+        $.each(arealist,(index,item)=>{
+            data.push({
+                    label:item,
+                    value:index
+                }
+            )
+        });
+        console.log(data);
+        weui.picker(data, {
+            onChange: function (result) {
+                console.log(result);
+            },
+            onConfirm: function (result) {
+                console.log(result);
+                $('#area').html(result[0].label);
+                area = result[0].label;
+                flag=true;
+                item = true;
+                // ui.style.display="none";
+                // var a = $("#list").styleyle.display;
+                // console.log('a',ui.style.display);
+
+                if(result[0].label === '全部'){
+                    rate(null,null,null,flag);
+                    filter(null,null);
+                }else{
+                    rate(area,null,null,flag);
+                    filter(area,null);
+                }
+
+            }
+        });
+    });
+    $("#showPicker2").click(function(){
+        var staffslist = sessionStorage.getItem("salelist1");
+        if(staffslist === ''){
+            alert('暂无可选销售');
+            return;
+        }
+        saleslist = staffslist.split(',');
+        console.log('saleslist',saleslist);
+        var data = [
+            {
+                label:'全部',
+                value:'全部'
+            }
+        ];
+        console.log(arealist);
+        $.each(saleslist,(index,item)=>{
+            data.push({
+                    label:item,
+                    value:index
+                }
+            )
+        });
+        console.log(data);
+        weui.picker(saleslist, {
+            onChange: function (result) {
+                console.log(result);
+            },
+            onConfirm: function (result) {
+                console.log(result);
+                $('#sale').html(result[0].label);
+                staffs = result[0].label;
+                flag=true;
+                filter(area,staffs);
+                // ui.style.display="none";
+                // var a = $("#list").styleyle.display;
+                // console.log('a',ui.style.display);
+                if(result[0].label === '全部'){
+                    rate(null,null,null,flag);
+                    filter(null,null);
+                }else{
+                    rate(area,staffs,null,flag);
+                    filter(area,staffs);
+                }
+
+            }
+        });
+    });
+    $("#showPicker3").click(function(){
+        var customlist = sessionStorage.getItem("accoutlist1");
+        if(customlist === '[]'){
+            alert('暂无可选客户');
+            return;
+        }
+        // console.log(accoutlist);
+        var accoutlist = JSON.parse(customlist);
+        var data = [];
+        console.log('account',accoutlist);
+        $.each(accoutlist,(index,item)=>{
+            data.push({
+                    label:item.AccountName,
+                    value:index,
+                    accountid: item.AccountId
+                }
+            )
+        });
+        console.log(data);
+        weui.picker(
+            data, {
+                onChange: function (result) {
+                    console.log(result);
+                },
+                onConfirm: function (result) {
+                    console.log(result);
+                    $('#kehu').html(result[0].label);
+                    accountid = result[0].accountid;
+
+                    flag=true;
+                    // ui.style.display="none";
+                    // var a = $("#list").styleyle.display;
+                    // console.log('a',ui.style.display);
+                    if(result[0].label === '全部'){
+                        rate(null,null,null,flag);
+                    }else{
+                        rate(area,staffs,accountid,flag);
+                    }
+
+
+                }
+            });
+    });
+    function numFormat(num){
+        var res=num.toString().replace(/\d+/, function(n){ // 先提取整数部分
+            return n.replace(/(\d)(?=(\d{3})+$)/g,function($1){
+                return $1+",";
+            });
+        })
+        return res;
+    }
+    //三级筛选
+    function filter(filterarea,filterstuff){
+        console.log('filterarea',filterarea);
+        console.log('filterstuff',filterstuff);
+        client.apexrest(
+            "/filter/condtiion?area="+filterarea+'&staff='+filterstuff, function (data) {
+                console.log(data);
+                saleslist = data.records[0].stafflist;
+                accoutlist = data.records[0].accountlist;
+                sessionStorage.setItem("salelist1",saleslist);
+                sessionStorage.setItem("accoutlist1",JSON.stringify(accoutlist));
+                $("#showPicker2").show();
+                $("#showPicker3").show();
+            }, function (error) {
+                console.log("您没有权限查看信息！");
+                console.log(error);
+                $('body').error(data,true);
+            }, "GET", null, null, true);
+    }
+    function rate(area,staffs,accountid,flag) {
+        client.apexrest(
+            "/account/receipt/completed/rate?userid="+context.WEQYUserId+'&area='+area+'&staffs='+staffs+'&accountid='+accountid, function (data) {
+                console.log(data);
+                $('#loading').hide();
+                var html = '';
+                var html1 = '';
+                if (data.errorCode === '1'){
+                        html = '<div class="tips"><img class="tips-icon" src="res/img/nodata.png"></><p>'+data.message+'</p></div>' ;
+                        $('.list').html(html);
+                        $('.list').css('background-color','#f6f6f6');
+                        $('.list2').html(html);
+                         $('.list2').css('background-color','#f6f6f6');
+                        return;
+                        }else{
+                            $('.tips').remove();
+                        }
+                html = '<tr style="height: 42px;">'
+                    // +'<td  style="text-align: center">区域</td>'
+                    +'<td style="text-align: center">销售人员</td>'
+                    +'<td style="text-align: left">客户名称</td>'
+                    +'<td style="text-align: center">收款目标(年)</td>'
+                    +'<td style="text-align: center">当月实际收款</td>'
+                    +'<td style="text-align: center">实际累计收款</td>'
+                    +'<td style="text-align: center">收款完成率</td>'
+                    +'</tr>'
+                $.each(data.records,function (index,value) {
+                    console.log('value',value.Area);
+                    html +=
+                        '<tr style="text-align: center">'
+                        // +'<td style="text-align: center">'+value.Area+'</td>'
+                        +'<td style="text-align: center">'+value.Sales+'</td>'
+                        +'<td style="width: 120px;"><div style="text-align: left;width: 120px;">'+value.AccountName+'</div></td>'
+                        +'<td>'+numFormat(value.ReceiptTarget)+'</td>'
+                        +'<td>'+numFormat(value.CurrentMonthReceipt)+'</td>'
+                        +'<td>'+numFormat(value.CumulativeReceipt)+'</td>'
+                        +'<td>'+value.ReceiptCompletedRate+'</td>'
+                        +'</tr>'
+
+                });
+                // html += '<button id="btn1"   style="display: block;background-color: #0093AA;color:#fff;position: absolute;right: 0.32rem;bottom: 1.5rem;border: 1px solid #0093AA;padding: 0.1rem 0.25rem;border-radius: 0.1rem;font-size: 0.24rem;">查看客户缴费统计表</button>'
+
+                // $('.statistics-bg').html(html);
+                // $('.total-bg1').html(total);
+                // $('.total-bg1').html(html1);
+                // $('#tab_Test3').html(html);
+                // $("#tab_Test3").freeze({ height:300,width:400, rows: 1, cols: 1 });
+                // $('.rowHeaderWrapper').css('height','none');
+                if(flag){
+                    $(".list").hide();
+                    var html1 = '';
+                    html1 =
+                        '<div id="div_Test4" style="OVERFLOW: auto;width: 100%;height: 100%;padding:0px; background-color: #ffffff;">'
+                        +'<table id="tab_Test4" border="0" width="600">'
+                        +'</table>'
+                        +'</div>'
+
+                    $('.list2').html(html1);
+                    $('.list2').show();
+                    $('#tab_Test4').html(html);
+                    $("#tab_Test4").freeze({ height:300,width:400, rows: 2, cols: 2 });
+                    $('.rowHeaderWrapper').css('height','none');
+                }else{
+                    $('#tab_Test3').html(html);
+                    $("#tab_Test3").freeze({ height:300,width:400, rows: 2, cols: 2 });
+                    $('.rowHeaderWrapper').css('height','none');
+                }
+
+            }, function (error) {
+                console.log("您没有管理的楼栋信息！");
+                console.log(error);
+                $('body').error(data,true);
+            }, "GET", null, null, true);
+    }
+
+</script>
+</body>
+
+
+</html>

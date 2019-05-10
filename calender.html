@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calender</title>
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+            list-style: none;
+        }
+        @keyframes Gradient {
+            0%{
+                background-position: 0% 50%;
+            }
+            50%{
+                background-position: 100% 50%;
+            }
+            100%{
+                background-position: 0% 50%;
+            }
+        }
+        @keyframes changeMonth {
+            50% {
+                transform: translate(0, 120%);
+            }
+          }
+        tbody{
+            animation: changeMonth 1s ease 1;
+        }
+        body{
+            background: linear-gradient(-45deg, #FBDA61, #FA709A, #9FACE6, #74EBD5);
+            background-size: 400% 400%;
+            animation: Gradient 15s ease infinite;
+        }
+        .wrapper{
+            width: 35em;
+            height: 27em;
+            margin: 0 auto;
+            margin-top: 100px;
+            position: relative;
+        }
+        .calendar{
+            width: 100%;
+            padding: 0 2.8em;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .wrapper .title{
+            color: #fff;
+            margin-bottom: 0.7em;
+            position: relative;
+        }
+        .calendar_head{
+            display: inline-block;
+        }
+        .title-year{
+            display: inline-block;
+            font-size: 25px;
+        }
+        .title-month{
+            margin-left: 20px;
+            font-size: 30px;
+            display: inline-block;
+        }
+        .calendar_control{
+            display: inline-block;
+            position: absolute;
+            right: 0px;
+            top: 15px;
+        }
+        .calendar_control i{
+            margin: 0 4px;
+            cursor: pointer;
+            font-style:normal;
+            font-size:1.5em;
+        }
+        #nowTime{
+            margin-top: 4.7em;
+        }
+        .wrapper  table{
+            position: relative;
+            width: 100%;
+            height: 22em;
+            border-collapse: collapse;
+        }
+        .wrapper table thead{
+            position: absolute;
+            width: 29.5em;
+            box-sizing: border-box;
+            z-index: 2;
+            background-color: #404040;
+            box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.25), 
+                        0 0.1em 0.5em 1px rgba(0, 0, 0, 0.35), 
+                        0 1em 2em 1px rgba(0, 0, 0, 0.15);
+            color: #fff;
+            top: -4em;
+        }
+        
+        .week{
+            height: 3em;
+            width: 14.6%;
+            padding: 0.7em;
+            text-align: center;
+        }
+        .wrapper table tbody{
+            position: relative;
+            transform: translateY(0);
+            z-index: 1;
+            padding: 1em 0.7em;
+            height: 20em;
+            background-color: #fff;
+            box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.25), 
+                        0 0.1em 0.5em 1px rgba(0, 0, 0, 0.35), 
+                        0 1em 2em 1px rgba(0, 0, 0, 0.15);
+        }
+        .wrapper table tbody tr td{
+            text-align: center;
+            height: 2em;
+            padding: 0.7em 0;
+        }
+        .wrapper table tbody tr .red{
+            background-image: radial-gradient(#ff7555 50%, rgba(0, 0, 0, 0) 53%); 
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            color: #fff;
+            background-size: 3.5em 3.5em;
+        }
+        .wrapper table tbody tr .blue{
+            color:#9FACE6;
+        }
+        #nowTime:after{
+            content: '';
+            width: 100%;
+            height: 3em;
+            border-radius: 10%;
+            position: absolute;
+            z-index: 3;
+            bottom: -3.7em;
+            left: 0;
+            box-shadow: 0 -1em 1em -1em rgba(0, 0, 0, 0.6), 
+                        0 0 4em -1em rgba(0, 0, 0, 0.2);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class='wrapper'>
+        <div class="calendar">
+          <div class='title'>
+            <div class="calendar_head">
+              <div class='title-year'>
+                <span id="year"></span>
+              </div>
+              <div class='title-month'>
+                <span id="month"></span>月</div>
+            </div>
+            <div class="calendar_control">
+              <i id="leftBtn"><</i>
+              <i id="rightBtn">></i>
+            </div>
+          </div>
+          <div id='nowTime'></div>
+        </div>
+      </div>
+</body>
+<script>
+    var $nowTime = document.getElementById('nowTime');
+
+
+var oDate = new Date();//创建事件对象
+var oNowMonth = oDate.getMonth() +1;//当前月份
+var oNowDay = oDate.getDate();//当前日期
+
+//初始化
+function init() {
+    var oDate = new Date();
+    var dataDate = {};//日期数据对象
+    dataDate.oDateObj = oDate;
+    dataDate.year = oDate.getFullYear();
+    dataDate.month = oDate.getMonth() + 1; 
+
+    showDate($nowTime, dataDate);//初始化当前月份界面
+}
+init();
+
+//绑定点击事件 切换月份
+function bindEvent() {
+    var oSpanLeft = document.getElementById('leftBtn');
+    var oSpanRight = document.getElementById('rightBtn');
+    oSpanLeft.onclick = turnPage;
+    oSpanRight.onclick = turnPage;
+}
+
+function turnPage (event) {
+    var oNowSpan = document.getElementsByClassName('calendar_head')[0].getElementsByTagName('span');
+
+    var oDate = new Date();
+    var dataDate = {};
+    dataDate.oDateObj = oDate;
+    $nowTime.innerHTML= '';
+
+    console.log(event.target.id);
+    if(event.target.id === 'leftBtn'){//向前翻
+        var Month = parseInt(oNowSpan[1].innerHTML);//获取当前显示的月份
+        var Year = parseInt(oNowSpan[0].innerHTML);//获取当前显示的年份
+        dataDate.month = Month;
+        //如果是1月，则往前翻应该到上一年12月
+        if(Month === 1){
+            dataDate.year = Year - 1;
+            dataDate.month = 12;
+            showDate($nowTime, dataDate);
+        }else{//否则只月份减一
+            dataDate.year = Year;
+            dataDate.month = Month - 1;
+            ($nowTime,dataDate);
+
+        }
+    }else{//向后翻
+        var Month = parseInt(oNowSpan[1].innerHTML);//获取当前显示的月份
+        var Year = parseInt(oNowSpan[0].innerHTML);//获取当前显示的年份
+        dataDate.month = Month;
+        //如果当前月份是12月，则应翻到下一年一月
+        if(Month === 12){
+            dataDate.year = Year + 1;
+            dataDate.month = 1;
+            showDate($nowTime,dataDate);
+        }else {//否则月份加一
+            dataDate.year = Year;
+            dataDate.month = Month + 1;
+            showDate($nowTime,dataDate);
+        }
+    }
+}
+
+
+//判断是否是闰年
+function isLeapYear(year) {
+    if(year % 4 === 0 && year %100 !== 0){
+        return true;
+    }else {
+        if(year %400 === 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+
+//当前日期标记红色，本月剩余日期标记蓝色
+function createDay(oTd, index, dayNum, nowMonth){
+    //参数       td集合，当前星期，本月总共天数，当前月份
+    for(var i = 0; i < dayNum; i++){
+        //1号是星期几，就从第几个td开始录入日期
+        oTd[i + index].innerHTML = i+1;
+        //当前日期类名为red，本月剩余日期为blue
+        if((i + 1) === oNowDay && nowMonth === oNowMonth){
+            oTd[i + index].className = 'red';
+        }else if((i + 1) > oNowDay && nowMonth === oNowMonth){
+            oTd[i+ index].className = 'blue';
+        }
+    }
+}
+
+//生成html结构
+function showDate(dom, oDate){
+    //设定年、月
+    var oyear_span = document.getElementById('year');
+    var omonth_span = document.getElementById('month');
+    oyear_span.innerHTML = oDate.year;
+    omonth_span.innerHTML = oDate.month;
+
+
+    //绑定事件
+    bindEvent();
+
+    var $table = document.createElement('table');
+    var $thead = document.createElement('thead');
+    var $tr = document.createElement('tr');
+    var arrWeek = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+    for(var i = 0; i < 7;  i++){
+        var $th = document.createElement('th');
+        $th.innerHTML = arrWeek[i];
+        if(i == 5 || i == 6){
+            $th.className = 'week red';
+        }else{
+            $th.className = 'week';
+        }
+        $tr.appendChild($th);
+    }
+    $thead.appendChild($tr);
+    $table.appendChild($thead);
+
+
+
+    var $tbody = document.createElement('tbody');
+    for(var i = 0; i< 6; i++){
+        var $tr = document.createElement('tr');
+        for(var j = 0; j < 7; j++){
+            var $td = document.createElement('td');
+            $tr.appendChild($td);
+        }
+        $tbody.appendChild($tr);
+    }
+    $table.appendChild($tbody);
+    dom.appendChild($table);
+
+    var dayNum;
+    if(oDate.month === 1 || oDate.month === 3 || oDate.month === 5 ||oDate.month === 7||oDate.month === 8||oDate.month === 10||oDate.month === 12){
+        dayNum = 31;
+    }else if(oDate.month === 4 || oDate.month === 6||oDate.month === 9||oDate.month === 11){
+        dayNum = 30;
+    }else if(oDate.month ===2 && isLeapYear(oDate.year)){
+        dayNum = 29;
+    }else{
+        dayNum = 28;
+    }
+
+    var $tdCollection = dom.getElementsByTagName('td');
+    var nowDay = oDate.oDateObj.getDate();
+    var nowMonth = oDate.month;
+
+
+    oDate.oDateObj.setFullYear(oDate.year);
+    oDate.oDateObj.setMonth(oDate.month - 1);
+    oDate.oDateObj.setDate(1);//设置日期为1号
+
+    switch(oDate.oDateObj.getDay()){ 
+        //根据当前年月的1号是星期几来生成日历
+        case 0:
+            createDay($tdCollection,6,dayNum,nowMonth);
+            //参数   td集合 ，星期，本月总共天数，当前月份
+            break;
+        case 1:
+            createDay($tdCollection,0,dayNum,nowMonth);
+            break;
+        case 2:
+            createDay($tdCollection,1,dayNum,nowMonth);
+            break;
+        case 3:
+            createDay($tdCollection,2,dayNum,nowMonth);
+            break;
+        case 4:
+            createDay($tdCollection,3,dayNum,nowMonth);
+            break;
+        case 5:
+            createDay($tdCollection,4,dayNum,nowMonth);
+            break;
+        case 6:
+            createDay($tdCollection,5,dayNum,nowMonth);
+            break;
+    }
+}
+
+</script>
+</html>
